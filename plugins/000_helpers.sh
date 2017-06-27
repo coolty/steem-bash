@@ -105,12 +105,20 @@ function install_docker() {
 }
 
 function install_conductor() {
+    read -r -p "Install Conductor? [y/N] " response
+    response=${response,,}  # tolower
+    if [[ "$response" =~ ^(yes|y)$ ]]
+    then
+    echo "Setting up conductor..."
     sudo apt install -qy python3-pip python3.5-dev libssl-dev
     pip3 install -U git+https://github.com/Netherdrake/conductor
     echo "ADD YOUR ACTIVE KEY"
     steempy addkey
     echo "INIT WITNESS"
     conductor init
+    else
+    echo "Not setting up conductor..."
+    fi
 }
 
 function install_steembox() {
